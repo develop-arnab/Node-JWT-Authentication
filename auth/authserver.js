@@ -40,7 +40,9 @@ const options = {
 };
 
 // Then pass these options to cors:
-app.use(cors(options));
+// app.use(cors(options));
+
+app.use(cors());
 
 
 app.get("/", async (req, res) => {
