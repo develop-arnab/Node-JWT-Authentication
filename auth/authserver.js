@@ -45,7 +45,7 @@ const options = {
 app.use(cors());
 
 
-app.get("/", async (req, res) => {
+app.get("/api/", async (req, res) => {
   const token = req.cookies.JWT_TOKEN;
   if (token) {
     //if the cookie is set, query the db
@@ -70,7 +70,7 @@ app.get("/", async (req, res) => {
   }
 });
 
-app.post("/token", async (req, res) => {
+app.post("/api/token", async (req, res) => {
   const token = req.body.refreshToken;
   const user = await validateToken(token, JWT_REFRESH_SECRET);
 
@@ -102,7 +102,7 @@ app.post("/token", async (req, res) => {
 });
 
 //login post request
-app.post("/login", async (req, res) => {
+app.post("/api/login", async (req, res) => {
   try {
     const { username, password } = req.body;
     const user = await User.findOne({ username }).lean();
@@ -157,7 +157,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.post("/logout", async (req, res) => {
+app.post("/api/logout", async (req, res) => {
   //logging out
   const token = req.body.refreshToken;
   if (token) {
@@ -166,7 +166,7 @@ app.post("/logout", async (req, res) => {
 });
 
 //register post request
-app.post("/register", async (req, res) => {
+app.post("/api/register", async (req, res) => {
   const { username, password: plainTextPassword } = req.body;
 
   if (!username || typeof username !== "string") {
