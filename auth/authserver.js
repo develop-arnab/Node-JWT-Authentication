@@ -33,7 +33,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Add a list of allowed origins.
 // If you have more origins you would like to add, you can add them to the array below.
-const allowedOrigins = ['http://localhost:3000'];
+const allowedOrigins = ['http://localhost:3000', 'http://3.6.37.30:3000'];
 
 const options = {
   origin: allowedOrigins
@@ -50,6 +50,7 @@ app.get("/", async (req, res) => {
     //get the user and role
     //we are taking a hit everytime a user makes a request
     const user = await validateToken(token, JWT_SECRET);
+    //session no longer there, expired etc..
     if (user === null) {
       res.send({
         message: "Invalid Token"
