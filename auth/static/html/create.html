@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
+      integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.8.1/lottie.min.js"
+      integrity="sha512-V1YyTKZJrzJNhcKthpNAaohFXBnu5K9j7Qiz6gv1knFuf13TW/3vpgVVhJu9fvbdW8lb5J6czIhD4fWK2iHKXA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/460/fabric.min.js"
+      integrity="sha512-ybPp3kCrNQXdvTfh99YLIdnajWnQvHuEKDJ+b26mxI9w+pLhnBo3HmNLJ1pEUBFO1Q0bfJxApeqecNbmaV763g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.25.0/axios.min.js"
+      integrity="sha512-/Q6t3CASm04EliI1QyIDAA/nDo9R8FQ/BULoUFyN4n/BDdyIxeH7u++Z+eobdmr11gG5D/6nPFyDlnisDwhpYA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
+    <script src="https://code.iconify.design/2/2.1.0/iconify.min.js"></script>
+    <!--========== BOX ICONS ==========-->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"
+    />
+
+    <!--========== CSS ==========-->
+    <link rel="stylesheet" href="/assets/css/styles.css" />
+
+    <title>Create</title>
+  </head>
+  <body>
+    <!--========== HEADER ==========-->
+    <header class="header">
+      <div class="header__container">
+        <img src="assets/img/perfil.jpg" alt="" class="header__img" />
+
+        <a href="#" class="header__logo">Create</a>
+        <!-- <input id="color-picker" value="#3399FF80" data-jscolor="{}" /> -->
+        <!-- <div class="header__search">
+                    <input type="search" placeholder="Search" class="header__input">
+                    <i class='bx bx-search header__icon'></i>
+                </div> -->
+
+        <div onclick="clearCanvas(canvas, svgState)">
+          <a href="#" class="nav__link">
+            <i class="bx bxs-trash nav__icon"></i>
+            <i class="bx bx-chevron-down nav__icon nav__dropdown-icon"></i>
+          </a>
+        </div>
+
+        <div onclick="restoreCanvas(canvas, svgState)">
+          <a href="#" class="nav__link">
+            <i class="bx bx-undo nav__icon"></i>
+            <i class="bx bx-chevron-down nav__icon nav__dropdown-icon"></i>
+          </a>
+        </div>
+
+        <div onclick="record()">
+          <a href="#" class="nav__link">
+            <i class="bx bxs-video-recording nav__icon"></i>
+            <i class="bx bx-chevron-down nav__icon nav__dropdown-icon"></i>
+          </a>
+        </div>
+
+        <div>
+          <a id="lnkDownload" href="#" class="nav__link">
+            <i class="bx bxs-save nav__icon"></i>
+            <i class="bx bx-chevron-down nav__icon nav__dropdown-icon"></i>
+          </a>
+        </div>
+
+        <div>
+          <a id="saveCanvasButton" href="#" class="nav__link">
+            <i class="bx bxs-save nav__icon"></i>
+            <i class="bx bx-chevron-down nav__icon nav__dropdown-icon"></i>
+          </a>
+        </div>
+        <div>
+          <a id="loadCanvasButton" href="#" class="nav__link">
+            <i class="bx bxs-save nav__icon"></i>
+            <i class="bx bx-chevron-down nav__icon nav__dropdown-icon"></i>
+          </a>
+        </div>
+        <div class="header__toggle">
+          <i class="bx bx-menu" id="header-toggle"></i>
+        </div>
+      </div>
+    </header>
+
+    <!-- SEARCH DATABASE BUTTON -->
+    <div id="morphsearch" class="morphsearch">
+      <form class="morphsearch-form">
+        <input
+        id="searchInputBox"
+          class="morphsearch-input"
+          type="search"
+          placeholder="Search..."
+        />
+        <button id="SearchButton" type="button">Search</button>
+      </form>
+      <div class="morphsearch-content">
+        <div id="animal-column" class="dummy-column">
+          <h2>Animals</h2>
+        </div>
+        <div id="icons-column" class="dummy-column">
+          <h2>Icons</h2>
+        </div>
+       
+      </div>
+      <!-- /morphsearch-content -->
+      <span class="morphsearch-close"></span>
+    </div>
+    <!-- /morphsearch -->
+    <!--========== NAV ==========-->
+    <div class="nav" id="navbar">
+      <nav class="nav__container">
+        <div>
+          <a href="#" class="nav__link nav__logo">
+            <i class="bx bxs-disc nav__icon"></i>
+            <span class="nav__logo-name">Create</span>
+          </a>
+
+          <div class="nav__list">
+            <div class="nav__items">
+              <h3 class="nav__subtitle">TOOLS</h3>
+
+              <a href="#" class="nav__link active">
+                <i class="bx bx-home nav__icon"></i>
+                <span class="nav__name">Home</span>
+              </a>
+              <a href="#" onclick="toggleMode(modes.pan)" class="nav__link">
+                <i class="bx bxs-hand"></i>
+                <span class="nav__name">Hand</span>
+              </a>
+              <a href="#" onclick="toggleMode(modes.drawing)" class="nav__link">
+                <i class="bx bxs-pencil"></i>
+                <span class="nav__name">Draw</span>
+              </a>
+              <div class="nav__dropdown">
+                <a href="#" class="nav__link">
+                  <!-- <span class="iconify icon" data-icon="bx:bx-face"></span> -->
+                  <i class="bx bx-network-chart nav__icon"></i>
+                  <span class="nav__name"> ANIMATIONS</span>
+                  <i
+                    class="bx bx-chevron-down nav__icon nav__dropdown-icon"
+                  ></i>
+                </a>
+
+                <div class="nav__dropdown-collapse">
+                  <div class="nav__dropdown-content">
+                    <div id="demo-anim" class="animView"></div>
+                    <div id="doctor-anim" class="animView"></div>
+                   
+                    <input
+                      id="slider"
+                      type="range"
+                      min="0"
+                      max="100"
+                      value="0"
+                    />
+                    <!-- <button class="nav__dropdown-item" onclick="createCircle(canvas)">Circle</button> -->
+                  </div>
+                </div>
+              </div>
+
+              <div class="nav__dropdown">
+                <a href="#" class="nav__link">
+                  <!-- <span class="iconify icon" data-icon="bx:bxs-shapes"></span> -->
+                  <i class="bx bxs-shapes nav__icon"></i>
+                  <span class="nav__name"> SHAPES</span>
+                  <i
+                    class="bx bx-chevron-down nav__icon nav__dropdown-icon"
+                  ></i>
+                </a>
+
+                <div class="nav__dropdown-collapse">
+                  <div class="nav__dropdown-content">
+                    <div onclick="createRect()">
+                      <i class="bx bx-square nav__icon nav__dropdown-icon"></i>
+                    </div>
+
+                    <div onclick="createCircle()">
+                      <i class="bx bx-circle nav__icon nav__dropdown-icon"></i>
+                    </div>
+
+                    <div onclick="addLottieAnim()">
+                      <i class="bx bx-square nav__icon nav__dropdown-icon"></i>
+                    </div>
+
+                    <div onclick="addNewLottieAnim()">
+                      <i class="bx bx-circle nav__icon nav__dropdown-icon"></i>
+                    </div>
+
+                    <!-- <div onclick="addLottieAnim()" id="lottie-restore" class="animView lottie-restore"></div>
+                    <div onclick="addNewLottieAnim()" id="lottie-restore-new" class="animView lottie-restore-new"></div> -->
+                  </div>
+                </div>
+              </div>
+
+              <div class="nav__dropdown">
+                <a href="#" class="nav__link">
+                  <i class="bx bx-message-rounded nav__icon"></i>
+                  <span class="nav__name">TEXT</span>
+                  <i
+                    class="bx bx-chevron-down nav__icon nav__dropdown-icon"
+                  ></i>
+                </a>
+
+                <div class="nav__dropdown-collapse">
+                  <div class="header__search">
+                    <input
+                      id="animationText"
+                      placeholder="Enter your text..."
+                      class="header__input"
+                    />
+                    <input
+                      id="animationText2"
+                      placeholder="Enter your text..."
+                      class="header__input"
+                    />
+                    <i class="bx bx-search header__icon"></i>
+                  </div>
+                  <div class="horizontal_container">
+                    <button id="addAnimText" 
+                    onclick="addAnimText()"
+                    >Add Text</button>
+                    <button onclick="addDemoText()">Add TextBOX</button>
+                    <select id="font-family"></select>
+                  </div>
+
+                  <div class="nav__dropdown-content">
+                    <button onclick="addTextAnim()" id="text-anim" class="animView"></button>
+                    <div id="text-anim2" class="animView"></div>
+                    <!-- <button id="text-anim">Text Animation</button> -->
+
+                    <!-- <a href="#" class="nav__dropdown-item">Publish</a>
+                                        <a href="#" class="nav__dropdown-item">Program</a> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="nav__items">
+              <h3 class="nav__subtitle">Menu</h3>
+
+              <a href="#" class="nav__link">
+                <i class="bx bx-bell nav__icon"></i>
+
+                <span class="nav__name">NOTIFICATIONS</span>
+              </a>
+
+              <a href="#" class="nav__link">
+                <i class="bx bx-compass nav__icon"></i>
+                <span class="nav__name">Explore</span>
+              </a>
+              <a href="#" class="nav__link">
+                <i class="bx bx-bookmark nav__icon"></i>
+                <span class="nav__name">Saved</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <a href="#" class="nav__link nav__logout">
+          <i class="bx bx-log-out nav__icon"></i>
+          <span class="nav__name">Log Out</span>
+        </a>
+      </nav>
+    </div>
+
+    <!--========== CANVAS ==========-->
+    <main class="canvas-layers">
+      <section class="mainCanvas">
+        <canvas id="canvas"></canvas>
+      </section>
+      <!-- <div class="layers">
+                <ul id="containerLayers"></ul>
+            </div> -->
+      <div class="col layerContainer">
+        <h2>Controls</h2>
+        <div class="tabs">
+          <div class="tab">
+            <input type="checkbox" id="chck1" class="checkbox" />
+            <label class="tab-label" for="chck1">Object Control</label>
+            <div class="tab-content">
+              <input id="color-picker" value="#3399FF80" data-jscolor="{}" />
+              <div class="horizontal_container">
+                <p>Width:</p>
+                <input class="inputView" type="text" id="width" name="width" />
+              </div>
+              <div class="horizontal_container">
+                <p>Height:</p>
+                <input
+                  class="inputView"
+                  type="text"
+                  id="height"
+                  name="height"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="tab">
+            <input type="checkbox" id="chck2" class="checkbox" />
+            <label class="tab-label" for="chck2">Layers</label>
+            <div class="tab-content">
+            
+              <ul id="containerLayers"></ul>
+            </div>
+          </div>
+          <div class="tab">
+            <input type="checkbox" id="chck3" class="checkbox" />
+            <label class="tab-label" for="chck3">Preview</label>
+            <div class="tab-content horizontal_container">
+              <div id="pause">
+                <a href="#" class="nav__link">
+                  <i class="bx bx-pause-circle nav__icon"></i>
+                  <i
+                    class="bx bx-chevron-down nav__icon nav__dropdown-icon"
+                  ></i>
+                </a>
+              </div>
+              <div id="play">
+                <a href="#" class="nav__link">
+                  <i class="bx bx-play-circle nav__icon"></i>
+                  <i
+                    class="bx bx-chevron-down nav__icon nav__dropdown-icon"
+                  ></i>
+                </a>
+              </div>
+              <div id="stop">
+                <a href="#" class="nav__link">
+                  <i class="bx bx-stop-circle nav__icon"></i>
+                  <i
+                    class="bx bx-chevron-down nav__icon nav__dropdown-icon"
+                  ></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!--========== MAIN JS ==========-->
+    <!-- <script src="/js/main.js"></script> -->
+    <script type="module" src="/js/CanvasHelpers/CreateFabricAnimation.js"></script>
+    <script type="module" src="/js/CanvasHelpers/CreateFabricArt.js"></script>
+    
+    <script type="module" src="/js/create.js"></script>
+    <script type="module" src="/js/CanvasHelpers/shapesHelper.js"></script>
+    
+    <script src="/lib/jscolor.js"></script>
+    <script src="/lib/fontfaceobserver.js"></script>
+    <script type="module" src="/js/constants.js"></script>
+    <script type="module" src="/js/searchMorph.js"></script>
+    <script type="module" src="/services/animationsServices.js"></script>
+  </body>
+</html>
