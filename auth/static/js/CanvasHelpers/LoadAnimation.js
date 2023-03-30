@@ -10,7 +10,7 @@ export const loadAnimator = (canvas, lottieCanvas, path) => {
     //   animationData: JSON.parse(JSON.stringify(animationData)),
     // path: "https://shell-create.herokuapp.com/uploads/2022-01-24T20-01-36.288Z-cow.json",
     // path: "./assets/anim/Animals/cow.json",
-    path: `http://localhost:8080/server/uploads/${path}`,
+    path: `http://3.6.37.30:8080/server/uploads/${path}`,
     rendererSettings: {
       context: lottieCanvas.getContext("2d"), // the canvas context
       preserveAspectRatio: "xMidYMid meet"
