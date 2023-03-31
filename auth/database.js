@@ -1,9 +1,10 @@
 'use strict';
+require('dotenv').config();
 const mongoose = require('mongoose');
 
 module.exports = () => {
     mongoose.connect(
-         'mongodb+srv://create:3.14ToInfinity@createapp.fhl1vbl.mongodb.net/?retryWrites=true&w=majority'
+        process.env.MONGO_CONNECT
         //'mongodb://localhost:27017/upload-files-database'
         , {
         useNewUrlParser: true,

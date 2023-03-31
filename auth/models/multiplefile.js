@@ -10,4 +10,4 @@ const mulitipleFileSchema = new Schema({
     files: [Object]
 }, {timestamps: true});
 
-module.exports = mongoose.model('MultipleFile', mulitipleFileSchema);
+module.exports = mongoose.model('multipleanimationfile', mulitipleFileSchema);
