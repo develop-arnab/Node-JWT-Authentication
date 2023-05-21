@@ -1,4 +1,5 @@
 
+import {global} from "../config/global.js";
 var objectArray = new Array();
 export const createAndAddShapeToCanvas = (canvas, shape) => {
     
@@ -51,8 +52,9 @@ export const createAndAddShapeToCanvas = (canvas, shape) => {
       }
     });
   
-    shape.on("selected", () => {
-      console.log("RECT SELECTED", shape);
+    shape.on("selected", (e) => {
+      global.selected = "shape"
+      console.log("RECT SELECTED", e.target.get('type'));
       $("li").removeClass("actived");
       $("#" + id).addClass("actived");
       $("#width").val((shape.width * shape.scaleX).toFixed(2));
@@ -61,6 +63,7 @@ export const createAndAddShapeToCanvas = (canvas, shape) => {
     });
   
     shape.on("deselected", () => {
+      global.selected = ""
       console.log("RECT DESELECTED", objectArray);
     });
 

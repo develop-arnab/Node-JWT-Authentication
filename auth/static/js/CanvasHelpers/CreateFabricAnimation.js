@@ -1,4 +1,6 @@
-export const animator = fabric.util.createClass(fabric.Image, {
+export const animator = 
+  fabric.util.createClass(fabric.Image, {
+    // id: fabric.Image.id,
     type: "AEAnimation",
     initialize: function (AECanvas, options) {
       options = options || {};
@@ -88,27 +90,6 @@ export const animator = fabric.util.createClass(fabric.Image, {
     }
   });
   
-  // animator.fromObject = function(object, callback) {
-  //   fabric.util.loadImage(object.src, function(img) {
-  //     callback && callback(new animator(img, object));
-  //   });
-  // };
-  
-  // animator.fromObject = function (_object, callback) {
-  //   const object = fabric.util.object.clone(_object)
-  //   fabric.Image.prototype._initFilters.call(object, object.filters, function (filters) {
-  //     object.filters = filters || []
-  //     fabric.Image.prototype._initFilters.call(object, [object.resizeFilter], function (resizeFilters) {
-  //       object.resizeFilter = resizeFilters[0]
-  //       fabric.util.enlivenObjects([object.clipPath], function (enlivedProps) {
-  //         object.clipPath = enlivedProps[0]
-  //         const fabricLottie = new animator(object.src, object)
-  //         callback(fabricLottie, false)
-  //       })
-  //     })
-  //   })
-  // }
-  
   // used to recreate an animation when canvases are restored
   animator.fromObject = (obj, callback) => {
     let animationData = JSON.stringify(obj);
@@ -148,6 +129,3 @@ export const animator = fabric.util.createClass(fabric.Image, {
   };
   
   animator.async = true;
-  // function(options) {
-  //   return new animator(options);
-  // }

@@ -7,38 +7,48 @@ const initCanvas = (id) => {
   return new fabric.Canvas(id, {
     width: 700,
     height: 680,
-    //  width: 900,
-    // height: 680,
-
     selection: false,
     backgroundColor: "grey"
   });
 };
 const canvas = initCanvas("canvas");
 
+
+canvas.on({
+  "mouse:down": CanvasMouseEvent,
+});
+
+canvas.on({
+  "selection:updated": OnAnimationSelected,
+  "selection:created": OnAnimationSelected
+});
+
+function OnAnimationSelected(obj) {
+  //Handle the object here
+  //obj.target._AECanvas.id
+  // obj.target.get('type')
+  //canvas.getActiveObject().id
+  //  obj?.target?._AECanvas?.id
+  console.log("Animation SELECTED", obj.target?._AECanvas?.id);
+  if(obj.target?._AECanvas?.id) {
+    var target_id = obj.target._AECanvas.id;
+    var target_id = target_id.split("-").slice(-1)[0];
+    console.log("TARGETED ID : ", target_id)
+  }
+  if(canvas.getActiveObject().id) {
+    var shape_id = canvas.getActiveObject().id
+    console.log("TARGETED Shape ID : ", shape_id)
+  }
+}
+
+
+function CanvasMouseEvent(obj) {
+  console.log("MOUSE DOWN ", obj.id)
+}
+
 // const canvas = new fabric.Canvas("canvas");
 document.getElementById("canvas").fabric = canvas;
 console.log("initcanvas", canvas);
-
-// const fabricImage = new create("./assets/anim/Animals/cow.json", {
-//   scaleX: 0.5
-// });
-// const fabricNewImage = new create("./assets/anim/Animals/crab.json", {
-//   scaleX: 0.5
-// });
-// canvas.add(fabricImage)
-
-// const addLottieAnim = () => {
-//   console.log("Called");
-//   canvas.add(fabricImage);
-//   canvas.requestRenderAll();
-// };
-
-// const addNewLottieAnim = () => {
-//   console.log("Called New");
-//   canvas.add(fabricNewImage);
-//   canvas.requestRenderAll();
-// };
 
 $(document).ready(function () {
   console.log("ready!");
@@ -124,6 +134,7 @@ $(document).ready(function () {
 function createRect() {
   const canvasCenter = canvas.getCenter();
   const rect = new fabric.Rect({
+    id:"shape",
     width: 100,
     height: 100,
     fill: "#333",
@@ -142,6 +153,7 @@ window.createRect = createRect;
 const createCircle = () => {
   const canvasCenter = canvas.getCenter();
   const circle = new fabric.Circle({
+    id:"shape",
     radius: 50,
     fill: "#cccccc",
     left: canvasCenter.left,
@@ -210,6 +222,7 @@ const toggleMode = (mode) => {
 
   console.log(mode);
 };
+
 let color = "#000";
 const setColorListener = () => {
   const picker = document.getElementById("color-picker");
@@ -224,10 +237,6 @@ const setColorListener = () => {
 };
 setColorListener();
 
-// const getsearchedAnimatons = () => {
-
-//   console.log(inputBox.value)
-// }
 
 (function () {
   var oldVal;
@@ -386,7 +395,7 @@ var textanimView = bodymovin.loadAnimation({
   rendererSettings: {
     progressiveLoad: false
   },
-  path: "/assets/anim/Text/TextComp13.json"
+  path: "/assets/anim/Text/data.json"
 });
 
 const textAnimView2 = document.getElementById("text-anim2");
@@ -397,171 +406,37 @@ var textanimView = bodymovin.loadAnimation({
   rendererSettings: {
     progressiveLoad: false
   },
-  path: "/assets/anim/Text/TextComp2.json"
+  path: "/assets/anim/Text/TextComp13.json"
 });
 
 ///// Initialize Animations on Canvases to be Added to the Fabric Canvas //////////
 
-const lottieCanvas = document.createElement("canvas");
-lottieCanvas.setAttribute("id", "lottieCanvas");
-lottieCanvas.width = 500;
-lottieCanvas.height = 500;
+const addIconAnim = (element_id) => {
+  console.log("ADDING ICON ANIM")
+  console.log("CLICKKKk", element_id);
+  var animationPath = ""
+  var id  = ""
+  if(element_id == "demo-anim") {
+    id =  "One-id_IconAnim"
+    animationPath = "2022-01-30T17-59-45.084Z-bat.json"
 
-const animItem = loadAnimator(
-  canvas,
-  lottieCanvas,
-  "2022-01-30T17-59-45.084Z-bat.json"
-);
-
-canvas.on({
-  "selection:updated": OnAnimationSelected,
-  "selection:created": OnAnimationSelected
-});
-
-function OnAnimationSelected(obj) {
-  //Handle the object here
-  console.log("Animation SELECTED", obj.target._AECanvas.id);
-}
-
-const doctorCanvas = document.createElement("canvas");
-doctorCanvas.width = 1000;
-doctorCanvas.height = 1000;
-doctorCanvas.setAttribute("id", "doctorCanvas");
-
-const doctoranimItem = loadAnimator(
-  canvas,
-  doctorCanvas,
-  "2022-01-24T20-01-36.288Z-cow.json"
-);
-
-const textCanvas = document.createElement("canvas");
-textCanvas.width = 2000;
-textCanvas.height = 2000;
-const textanimItem = loadTextAnimator(
-  canvas,
-  textCanvas,
-  "/assets/anim/Text/TextComp13.json"
-);
-// const textanimItem = bodymovin.loadAnimation({
-//   renderer: "canvas",
-//   loop: true,
-//   autoplay: false,
-//   // animationData: JSON.parse(JSON.stringify(doctorAnimationData)),
-//   path: "./assets/anim/Text/TextComp13.json",
-//   rendererSettings: {
-//     context: textCanvas.getContext("2d"), // the canvas context
-//     preserveAspectRatio: "xMidYMid meet"
-//     //   clearCanvas: true,
-//   }
-// });
-
-// textanimItem.addEventListener("enterFrame", (e) => {
-//   // console.log('enterFrame', textanimItem.currentFrame, textanimItem.timeCompleted, textanimItem.frameRate)
-//   // console.log(
-//   //   "current time",
-//   //   textanimItem.currentFrame / textanimItem.frameRate
-//   // );
-//   slider.value = e.currentTime;
-//   canvas.requestRenderAll();
-// });
-// textanimItem.addEventListener("DOMLoaded", () => {
-//   window.tempEl = textanimItem;
-//   textanimItem.goToAndStop(1, true);
-//   console.log("total frames", textanimItem.getDuration(false));
-//   slider.max = textanimItem.getDuration(true);
-//   console.log(textanimItem.renderer.canvasContext.canvas === doctorCanvas);
-// });
-
-const textCanvas2 = document.createElement("canvas");
-textCanvas2.width = 1000;
-textCanvas2.height = 1000;
-const textanimItem2 = loadTextAnimator(
-  canvas,
-  textCanvas2,
-  "/assets/anim/Text/TextComp2.json"
-);
-// const textanimItem2 = bodymovin.loadAnimation({
-//   renderer: "canvas",
-//   loop: true,
-//   autoplay: false,
-//   // animationData: JSON.parse(JSON.stringify(doctorAnimationData)),
-//   path: "./assets/anim/Text/TextComp2.json",
-//   rendererSettings: {
-//     context: textCanvas2.getContext("2d"), // the canvas context
-//     preserveAspectRatio: "xMidYMid meet"
-//     //   clearCanvas: true,
-//   }
-// });
-
-// textanimItem2.addEventListener("enterFrame", (e) => {
-//   // console.log('enterFrame', textanimItem.currentFrame, textanimItem.timeCompleted, textanimItem.frameRate)
-//   // console.log(
-//   //   "current time",
-//   //   textanimItem2.currentFrame / textanimItem2.frameRate
-//   // );
-//   slider.value = e.currentTime;
-//   canvas.requestRenderAll();
-// });
-// textanimItem2.addEventListener("DOMLoaded", () => {
-//   window.tempEl = textanimItem2;
-//   textanimItem2.goToAndStop(1, true);
-//   console.log("total frames", textanimItem2.getDuration(false));
-//   slider.max = textanimItem2.getDuration(true);
-//   console.log(textanimItem2.renderer.canvasContext.canvas === doctorCanvas);
-// });
-
-const addAnimText = () => {
-  var mainTitle = document.getElementById("animationText").value;
-  var subTitle = document.getElementById("animationText2").value;
-  console.log(
-    "DOMLoadedNOW",
-    textanimItem2.renderer,
-    " TEXT SEARCH :",
-    textanimItem2.assets[0].layers[0].t.d.k[0].s.t
+  }
+  if(element_id == "doctor-anim") {
+    id =  "Two-id_IconAnim"
+    animationPath = "2022-01-24T20-01-36.288Z-cow.json"
+  }
+  const lottieCanvas = document.createElement("canvas");
+  // lottieCanvas.setAttribute("elementType", "lottieCanvas");
+  lottieCanvas.width = 500;
+  lottieCanvas.height = 500;
+  lottieCanvas.id = id;
+  const animItem = loadAnimator(
+    canvas,
+    lottieCanvas,
+    animationPath
   );
-  console.log("DOMLoadedNOW", textanimItem2.renderer.elements[4]);
-  // console.log("ANIMATION DATA : ",textanimItem2 ," TEXT SEARCH :" ,textanimItem2.assets[0].layers[0].t.d.k[0].s.t)
-  // textanimItem2.renderer.elements[0].elements[0].updateDocumentData({
-  //   t: subTitle, fc : "#000000"
-  // });
-  // textanimItem2.renderer.elements[2].elements[0].updateDocumentData({
-  //   t: subTitle
-  // },0);
-  // textanimItem2.renderer.elements[1].elements[0].updateDocumentData({
-  //   t: mainTitle,s:40, fc : "#000000"
-  // },0);
-  // textanimItem2.renderer.elements[3].elements[0].updateDocumentData({
-  //   t: mainTitle,s:40, fc : "#000000"
-  // },0);
-  textanimItem2.renderer.elements[4].elements[0].updateDocumentData(
-    {
-      t: mainTitle
-    },
-    0
-  );
-  // textanimItem2.renderer.elements[5].elements[0].updateDocumentData({
-  //   t: mainTitle, fc : "#000000"
-  // });
 
-  // textanimItem2.renderer.elements[4].updateDocumentData({
-  //   t: subTitle
-  // });
-  // textanimItem2.renderer.elements[5].updateDocumentData({
-  //   t: subTitle
-  // });
-  textanimItem2.renderer.elements[6].elements[0].updateDocumentData({
-    t: subTitle
-  });
-  // textanimItem2.renderer.elements[7].updateDocumentData({
-  //   t: mainTitle
-  // });
-  textanimItem2.renderer.elements[8].elements[0].updateDocumentData({
-    t: mainTitle
-  });
-};
-// window.addAnimText = addAnimText;
-
-document.querySelector("#demo-anim").onclick = () => {
+  //   console.log("ADDING ICON Demo ANIM")
   const fabricImage = new animator(lottieCanvas, {
     scaleX: 0.5,
     scaleY: 0.5,
@@ -572,37 +447,33 @@ document.querySelector("#demo-anim").onclick = () => {
   });
   canvas.add(fabricImage);
   canvas.requestRenderAll();
-};
+}
+window.addIconAnim = addIconAnim
 
-document.querySelector("#doctor-anim").onclick = () => {
-  const doctorfabricImage = new animator(doctorCanvas, {
-    scaleX: 0.5,
-    scaleY: 0.5,
-    needsItsOwnCache: () => {
-      return true;
-    },
-    objectCaching: true
-  });
-  canvas.add(doctorfabricImage);
-  canvas.requestRenderAll();
-};
+function addTextAnim(element_id) {
+  console.log("CLICKKKk", element_id);
+  var animationPath = ""
+  var id  = ""
+  if(element_id == "text-anim") {
+    id =  "One-id_TextAnim"
+    animationPath = "/assets/anim/Text/Kinetic_glyph.json"
 
-//   document.querySelector("#text-anim").onclick = () => {
-//     const textfabricImage = new animator(textCanvas, {
-//       scaleX: 0.5,
-//       scaleY: 0.5,
-//       needsItsOwnCache: () => {
-//         return true;
-//       },
-//       objectCaching: true
-//     });
-//     canvas.add(textfabricImage);
-//     canvas.requestRenderAll();
-//   };
+  }
+  if(element_id == "text-anim2") {
+    id =  "Two-id_TextAnim"
+    animationPath = "/assets/anim/Text/TextComp2.json"
 
-function addTextAnim() {
-  //    func1()
-  console.log("CLICKKKk");
+  }
+  const textCanvas = document.createElement("canvas");
+  textCanvas.width = 1500;
+  textCanvas.height = 1500;
+  textCanvas.id = id;
+  const textanimItem = loadTextAnimator(
+    canvas,
+    textCanvas,
+    animationPath
+  );
+
   const textfabricImage = new animator(textCanvas, {
     scaleX: 0.5,
     scaleY: 0.5,
@@ -616,36 +487,6 @@ function addTextAnim() {
 }
 // variable function
 window.addTextAnim = addTextAnim;
-
-document.querySelector("#text-anim2").onclick = () => {
-  const textfabricImage2 = new animator(textCanvas2, {
-    scaleX: 0.5,
-    scaleY: 0.5,
-    needsItsOwnCache: () => {
-      return true;
-    },
-    objectCaching: true
-  });
-  canvas.add(textfabricImage2);
-  canvas.requestRenderAll();
-};
-
-document.querySelector("#play").onclick = () => {
-  // console.log("CLICKSSS", loadAnimation)
-  // doctoranimItem.play();
-  // loadAnimation.play();
-  textanimItem2.play();
-};
-document.querySelector("#pause").onclick = () => {
-  // doctoranimItem.pause();
-  // loadAnimation.pause();
-  textanimItem2.pause();
-};
-document.querySelector("#stop").onclick = () => {
-  // doctoranimItem.stop();
-  // loadAnimation.stop();
-  textanimItem2.stop();
-};
 
 slider.oninput = (e) => {
   console.log(

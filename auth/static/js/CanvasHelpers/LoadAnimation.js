@@ -1,8 +1,4 @@
 export const loadAnimator = (canvas, lottieCanvas, path) => {
-  //   const lottieCanvas = document.createElement("canvas");
-  //   lottieCanvas.width = 500;
-  //   lottieCanvas.height = 500;
-
   const loadAnimation = bodymovin.loadAnimation({
     renderer: "canvas",
     loop: true,
@@ -10,15 +6,13 @@ export const loadAnimator = (canvas, lottieCanvas, path) => {
     //   animationData: JSON.parse(JSON.stringify(animationData)),
     // path: "https://shell-create.herokuapp.com/uploads/2022-01-24T20-01-36.288Z-cow.json",
     // path: "./assets/anim/Animals/cow.json",
-    path: `http://3.6.37.30:8080/server/uploads/${path}`,
+    path: `http://localhost:8080/server/uploads/${path}`,
     rendererSettings: {
       context: lottieCanvas.getContext("2d"), // the canvas context
       preserveAspectRatio: "xMidYMid meet"
       // clearCanvas: false,
     }
   });
-
-//   canvas.add(lottieCanvas)
 
   function onObjectSelected(e) {
     console.log("Animation selected" , e.target.get('type'));
@@ -45,7 +39,7 @@ export const loadAnimator = (canvas, lottieCanvas, path) => {
     console.log(loadAnimation.renderer.canvasContext.canvas === lottieCanvas);
   });
 
-  window.addEventListener("load", function () {
+
     document.getElementById("play").addEventListener("click", function (e) {
       console.log("It was clicked");
       loadAnimation.play();
@@ -58,5 +52,5 @@ export const loadAnimator = (canvas, lottieCanvas, path) => {
       console.log("It was clicked");
       loadAnimation.stop();
     });
-  });
+
 };

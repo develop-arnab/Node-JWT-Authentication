@@ -105,7 +105,7 @@
     <div id="morphsearch" class="morphsearch">
       <form class="morphsearch-form">
         <input
-        id="searchInputBox"
+          id="searchInputBox"
           class="morphsearch-input"
           type="search"
           placeholder="Search..."
@@ -119,7 +119,6 @@
         <div id="icons-column" class="dummy-column">
           <h2>Icons</h2>
         </div>
-       
       </div>
       <!-- /morphsearch-content -->
       <span class="morphsearch-close"></span>
@@ -162,9 +161,9 @@
 
                 <div class="nav__dropdown-collapse">
                   <div class="nav__dropdown-content">
-                    <div id="demo-anim" class="animView"></div>
-                    <div id="doctor-anim" class="animView"></div>
-                   
+                    <button onclick="addIconAnim(this.id)" id="demo-anim" class="animView"></button>
+                    <button  onclick="addIconAnim(this.id)" id="doctor-anim" class="animView"></button>
+
                     <input
                       id="slider"
                       type="range"
@@ -221,7 +220,7 @@
                 </a>
 
                 <div class="nav__dropdown-collapse">
-                  <div class="header__search">
+                  <div id="input-container" class="header__search">
                     <input
                       id="animationText"
                       placeholder="Enter your text..."
@@ -235,16 +234,24 @@
                     <i class="bx bx-search header__icon"></i>
                   </div>
                   <div class="horizontal_container">
-                    <button id="addAnimText" 
-                    onclick="addAnimText()"
-                    >Add Text</button>
+                    <button id="addAnimText" onclick="addAnimText()">
+                      Add Text
+                    </button>
                     <button onclick="addDemoText()">Add TextBOX</button>
                     <select id="font-family"></select>
                   </div>
 
                   <div class="nav__dropdown-content">
-                    <button onclick="addTextAnim()" id="text-anim" class="animView"></button>
-                    <div id="text-anim2" class="animView"></div>
+                    <button
+                      onclick="addTextAnim(this.id)"
+                      id="text-anim"
+                      class="animView"
+                    ></button>
+                    <button
+                      onclick="addTextAnim(this.id)"
+                      id="text-anim2"
+                      class="animView"
+                    ></button>
                     <!-- <button id="text-anim">Text Animation</button> -->
 
                     <!-- <a href="#" class="nav__dropdown-item">Publish</a>
@@ -317,7 +324,6 @@
             <input type="checkbox" id="chck2" class="checkbox" />
             <label class="tab-label" for="chck2">Layers</label>
             <div class="tab-content">
-            
               <ul id="containerLayers"></ul>
             </div>
           </div>
@@ -357,12 +363,15 @@
 
     <!--========== MAIN JS ==========-->
     <!-- <script src="/js/main.js"></script> -->
-    <script type="module" src="/js/CanvasHelpers/CreateFabricAnimation.js"></script>
+    <script
+      type="module"
+      src="/js/CanvasHelpers/CreateFabricAnimation.js"
+    ></script>
     <script type="module" src="/js/CanvasHelpers/CreateFabricArt.js"></script>
-    
+    <!-- <script type="module" src="/js/config/global.js"></script> -->
     <script type="module" src="/js/create.js"></script>
     <script type="module" src="/js/CanvasHelpers/shapesHelper.js"></script>
-    
+
     <script src="/lib/jscolor.js"></script>
     <script src="/lib/fontfaceobserver.js"></script>
     <script type="module" src="/js/constants.js"></script>
